@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 15 juin 2026 à 20:51
+-- Généré le : jeu. 25 juin 2026 à 19:03
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -309,7 +309,11 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('bV6rGmf7nDizcKfjhxqZfi1YSxN35KvLFi7zCre9', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoid0VVN0JIMmNOd3FmRmRiUndIdFFGUDVHbHk4Rjh6UDFFS25SeUg1UCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaWduLWluIjtzOjU6InJvdXRlIjtzOjU6ImxvZ2luIjt9fQ==', 1780948207);
+('1bnYTWwM0Kz27c6ssD9hFBMUB3cUvB3qBR4I27Q1', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibXRNbUZNcjNWQ1VJV1J5eG1iU0JzQjlSWHhaU1BRd3cyV3hzZ245VCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaWduLWluIjtzOjU6InJvdXRlIjtzOjU6ImxvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1781806474),
+('bV6rGmf7nDizcKfjhxqZfi1YSxN35KvLFi7zCre9', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoid0VVN0JIMmNOd3FmRmRiUndIdFFGUDVHbHk4Rjh6UDFFS25SeUg1UCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaWduLWluIjtzOjU6InJvdXRlIjtzOjU6ImxvZ2luIjt9fQ==', 1780948207),
+('CvyxM99aXjKy1Nz7vahomQ9DY9ZXMrpO8lanWXq4', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.124.2 Chrome/148.0.7778.97 Electron/42.2.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZndtZ21pdXJxZkhyWk5lbng1a0N1cHJkeVhyVHBtcndZb0UzQWJBdSI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaWduLWluIjtzOjU6InJvdXRlIjtzOjU6ImxvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1781806372),
+('VVfUiXetKcXPvPqDXmuE52iM4rjVOdLdUx0NzZEl', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUzhwVGd1OWw0cWJYbmJlcFQ0M3BnejVPaENuOUZROUtzOXhaMllZRSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czo5OiJkYXNoYm9hcmQiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1782151287),
+('XsZsHD1grCx7bluCED0kHmD3FJw2xyjdO3KMksaU', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.124.2 Chrome/148.0.7778.97 Electron/42.2.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoidjNrbXdpeVlmM1RPblREZlc0bkVmanlFNTJDTVNEWWpiY3RETjBIWiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaWduLWluIjtzOjU6InJvdXRlIjtzOjU6ImxvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1782151052);
 
 -- --------------------------------------------------------
 
@@ -346,7 +350,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin Test', 'admin@gmail.com', 'user', NULL, '$2y$12$9q4qvoRmQXYhIMiO56fij.Hf2Kz0D16i9lBSsAqYaLB512r8e6tcO', NULL, '2026-06-08 19:47:07', '2026-06-08 19:47:07'),
+(1, 'Admin Test', 'admin@gmail.com', 'admin', NULL, '$2y$12$9q4qvoRmQXYhIMiO56fij.Hf2Kz0D16i9lBSsAqYaLB512r8e6tcO', NULL, '2026-06-08 19:47:07', '2026-06-08 19:47:07'),
 (2, 'Binette', 'binette@gmail.com', 'user', NULL, '$2y$12$D8DwI5cBIbwVahfbdwnbyuBiE62hIoxbq8G0uFAKwNmll9oi8f0Lu', NULL, '2026-06-08 19:47:07', '2026-06-08 19:47:07'),
 (3, 'Sanou', 'sanou@gmail.com', 'user', NULL, '$2y$12$lTlWCh2rt9s/UsBXAss/yuXvFTnWbdLvRgoj4ad9KlCK2PpIbiAti', NULL, '2026-06-08 19:47:08', '2026-06-08 19:47:08');
 
