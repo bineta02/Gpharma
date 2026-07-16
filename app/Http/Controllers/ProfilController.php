@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -43,6 +43,13 @@ class ProfilController extends Controller
         }
 
         $user->update($data);
+        // Enregistrement de l'action dans le journal d'activité
+ActivityLog::create([
+    'user_id' => auth()->id(),
+    'action' => 'Mise à jour Profil', 
+    'description' => auth()->user()->name . ' a mis à jour ses informations personnelles.',
+    'ip_address' => request()->ip(),
+]);
 
         return redirect()->back()->with('success', 'Profil mis à jour avec succès !');
     }
@@ -61,6 +68,13 @@ class ProfilController extends Controller
         $user->update([
             'password' => Hash::make($request->password),
         ]);
+        // Enregistrement de l'action dans le journal d'activité
+ActivityLog::create([
+    'user_id' => auth()->id(),
+    'action' => 'Sécurité',
+    'description' => auth()->user()->name . ' a modifié son mot de passe.',
+    'ip_address' => request()->ip(),
+]);
 
         return redirect()->back()->with('success_password', 'Mot de passe modifié avec succès !');
     }

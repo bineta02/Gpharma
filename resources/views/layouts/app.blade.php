@@ -240,6 +240,14 @@
 </li>
       </li>
 
+      <!-- Onglet Journal d'activité -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="{{ route('logs.index') }}">
+        <i class="bi bi-file-earmark-text"></i>
+        <span>Journal d'activité</span>
+    </a>
+</li><!-- End Activity Logs Nav -->
+
       
 
       <li class="nav-item">

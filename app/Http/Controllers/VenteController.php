@@ -6,6 +6,7 @@ use App\Models\Vente;
 use App\Models\VenteDetail;
 use App\Models\Produit;
 use App\Models\Client;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,7 +29,7 @@ class VenteController extends Controller
     // Interface de caisse POS (Formulaire de création)
     public function create()
 {
-    // Remplacer 'stock' par 'stock_max'
+    // Récupération des produits avec stock disponible et des clients
     $produits = Produit::where('stock_max', '>', 0)->get(); 
     $clients = Client::orderBy('nom')->get();
     
@@ -73,6 +74,14 @@ class VenteController extends Controller
             ];
         }
 
+
+// Enregistrement de l'action dans le journal d'activité
+ActivityLog::create([
+    'user_id' => auth()->id(),
+    'action' => 'Création de Vente',
+    'description' => auth()->user()->name . ' a créé une nouvelle vente.',
+    'ip_address' => request()->ip(),
+]);
         if ($request->montant_recu < $montantTotal) {
             return redirect()->back()->withInput()->with('error', "Le montant reçu est insuffisant.");
         }

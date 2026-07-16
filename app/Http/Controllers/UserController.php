@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -42,6 +43,13 @@ class UserController extends Controller
             'role' => $request->role,
             'statut' => 'actif',
         ]);
+        // Enregistrement de l'action dans le journal d'activité
+ActivityLog::create([
+    'action' => 'Modification Utilisateur',
+'description' => 'A modifié les informations de ' . $user->name,
+    'user_id' => auth()->id(),
+    'ip_address' => request()->ip(),
+]);
 
         return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès !');
     }
@@ -76,6 +84,13 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
             ]);
         }
+        // Enregistrement de l'action dans le journal d'activité
+ActivityLog::create([
+    'action' => 'Création Utilisateur',
+'description' => 'A créé le compte de ' . $user->name,
+    'user_id' => auth()->id(),
+    'ip_address' => request()->ip(),
+]);
 
         return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès !');
     }

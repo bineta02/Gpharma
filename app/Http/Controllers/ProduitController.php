@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produit;
 use App\Models\Categorie;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,6 +55,13 @@ class ProduitController extends Controller
         }
 
         Produit::create($data);
+        // Enregistrement de l'action dans le journal d'activité
+ActivityLog::create([
+    'user_id' => auth()->id(),
+    'action' => 'Création de Vente',
+    'description' => auth()->user()->name . ' a créé une nouvelle vente.',
+    'ip_address' => request()->ip(),
+]);
 
         return redirect()->route('produits.index')->with('success', 'Produit enregistré avec ses alertes !');
     }
@@ -62,6 +70,14 @@ class ProduitController extends Controller
     {
         $produit = Produit::findOrFail($id);
         $categories = Categorie::where('statut', 'actif')->get();
+
+        // Enregistrement de l'action dans le journal d'activité
+ActivityLog::create([
+    'user_id' => auth()->id(),
+    'action' => 'Création de Vente',
+    'description' => auth()->user()->name . ' a créé une nouvelle vente.',
+    'ip_address' => request()->ip(),
+]);
         return view('produits.edit', compact('produit', 'categories'));
     }
 
@@ -92,6 +108,13 @@ class ProduitController extends Controller
         }
 
         $produit->update($data);
+        // Enregistrement de l'action dans le journal d'activité
+ActivityLog::create([
+    'user_id' => auth()->id(),
+    'action' => 'Création de Vente',
+    'description' => auth()->user()->name . ' a créé une nouvelle vente.',
+    'ip_address' => request()->ip(),
+]);
 
         return redirect()->route('produits.index')->with('success', 'Produit modifié avec succès !');
     }
@@ -105,6 +128,13 @@ class ProduitController extends Controller
         }
 
         $produit->delete();
+        // Enregistrement de l'action dans le journal d'activité
+ActivityLog::create([
+    'user_id' => auth()->id(),
+    'action' => 'Création de Vente',
+    'description' => auth()->user()->name . ' a créé une nouvelle vente.',
+    'ip_address' => request()->ip(),
+]);
 
         return redirect()->route('produits.index')->with('success', 'Produit supprimé avec succès !');
     }
