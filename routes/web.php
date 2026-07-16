@@ -11,6 +11,7 @@ use App\Http\Controllers\VenteController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\RapportController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ActivityLogController;
 
 // Page de connexion
 Route::get('/sign-in', [Authcontroller::class, 'verification'])->name('login');
@@ -29,6 +30,7 @@ Route::resource('users', UserController::class);
 Route::get('/profil', [ProfilController::class, 'show'])->name('profil.show');
 Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
 Route::put('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.password');
+Route::get('/logs', [ActivityLogController::class, 'index'])->name('logs.index');
 
 
 Route::post('/users/{user}/toggle', [UserController::class, 'toggleStatus'])->name('users.toggle');
