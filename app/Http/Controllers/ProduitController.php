@@ -39,11 +39,12 @@ class ProduitController extends Controller
             'id_categorie'    => 'required|exists:categories,id',
             'code'            => 'required|string|unique:produits,code',
             'nom'             => 'required|string|max:255',
+            'prix'            => 'required|numeric|min:0', 
             'description'     => 'nullable|string',
             'stock_min'       => 'required|integer|min:0',
             'stock_max'       => 'required|integer|min:0',
             'image'           => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'date_peremption' => 'nullable|date', // <-- Validation de la date
+            'date_peremption' => 'nullable|date', 
         ]);
 
         $data = $request->all();

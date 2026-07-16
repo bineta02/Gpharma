@@ -44,6 +44,13 @@
                 </div>
               </div>
 
+              <div class="row mb-3">
+  <label for="prix" class="col-sm-2 col-form-label">Prix de Vente (F CFA)</label>
+  <div class="col-sm-10">
+    <input type="number" name="prix" id="prix" class="form-control" value="{{ old('prix', $produit->prix) }}" min="0" required>
+  </div>
+</div>
+
               <!-- Sélection de la Catégorie (id_categorie) -->
               <div class="row mb-3">
                 <label for="id_categorie" class="col-sm-3 col-form-label">Catégorie <span class="text-danger">*</span></label>

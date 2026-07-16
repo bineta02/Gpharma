@@ -5,96 +5,87 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
+    // 1. LISTE DES UTILISATEURS
+    public function index()
     {
-        $search = $request->search;
-        $role   = $request->role;
-
-        $users = User::when($search, function ($q) use ($search) {
-                $q->where('name', 'like', "%$search%")
-                  ->orWhere('email', 'like', "%$search%");
-            })
-            ->when($role, function ($q) use ($role) {
-                $q->where('role', $role);
-            })
-            ->paginate(8);
-
-        return view('users.index', compact('users', 'search', 'role'));
+        // Pas besoin de charger de relation factice, on prend juste les utilisateurs !
+        $users = User::all();
+        return view('users.index', compact('users'));
     }
 
+    // 2. FORMULAIRE DE CRÉATION
     public function create()
     {
-        return view('users.create');
+        // Tes rôles sont gérés par de simples chaînes de caractères
+        $roles = ['admin', 'manager', 'vendeur'];
+        return view('users.create', compact('roles'));
     }
 
+    // 3. ENREGISTRER L'UTILISATEUR
     public function store(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-            'role'     => 'required|in:admin,manager,editor,viewer',
-        ], [
-            'name.required'      => 'Le nom est obligatoire.',
-            'email.required'     => 'L\'email est obligatoire.',
-            'email.unique'       => 'Cet email est déjà utilisé.',
-            'password.required'  => 'Le mot de passe est obligatoire.',
-            'password.min'       => 'Le mot de passe doit contenir au moins 6 caractères.',
-            'password.confirmed' => 'Les mots de passe ne correspondent pas.',
-            'role.required'      => 'Le rôle est obligatoire.',
-            'role.in'            => 'Le rôle sélectionné est invalide.',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['required', 'string'],
         ]);
 
         User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
+            'name' => $request->name,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role'     => $request->role,
+            'role' => $request->role,
+            'statut' => 'actif',
         ]);
 
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'Utilisateur créé avec succès.');
+        return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès !');
     }
 
+    // 4. FORMULAIRE DE MODIFICATION
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $roles = ['admin', 'manager', 'vendeur'];
+        return view('users.edit', compact('user', 'roles'));
     }
 
+    // 5. METTRE À JOUR L'UTILISATEUR
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'role'  => 'required|in:admin,manager,editor,viewer',
-        ], [
-            'name.required'  => 'Le nom est obligatoire.',
-            'email.required' => 'L\'email est obligatoire.',
-            'email.unique'   => 'Cet email est déjà utilisé.',
-            'role.required'  => 'Le rôle est obligatoire.',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'role' => ['required', 'string'],
         ]);
 
         $user->update([
-            'name'  => $request->name,
+            'name' => $request->name,
             'email' => $request->email,
-            'role'  => $request->role,
+            'role' => $request->role,
         ]);
 
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'Utilisateur modifié avec succès.');
+        if ($request->filled('password')) {
+            $request->validate([
+                'password' => ['confirmed', Rules\Password::defaults()],
+            ]);
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
+
+        return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès !');
     }
 
-    public function destroy(User $user)
+    // 6. ACTIVER / DÉSACTIVER LE COMPTE
+    public function toggleStatus(User $user)
     {
-        $user->delete();
+        $user->statut = ($user->statut === 'actif') ? 'inactif' : 'actif';
+        $user->save();
 
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'Utilisateur supprimé avec succès.');
+        return redirect()->back()->with('success', 'Statut du compte mis à jour !');
     }
 }

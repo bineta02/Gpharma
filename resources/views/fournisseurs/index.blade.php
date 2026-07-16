@@ -5,16 +5,16 @@
 
   <div class="pagetitle d-flex justify-content-between align-items-center">
     <div>
-      <h1>Historique des Achats</h1>
+      <h1>Liste des Fournisseurs</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-          <li class="breadcrumb-item active">Achats</li>
+          <li class="breadcrumb-item active">Fournisseurs</li>
         </ol>
       </nav>
     </div>
-    <a href="{{ route('achats.create') }}" class="btn btn-primary">
-      <i class="bi bi-plus-circle me-1"></i> Enregistrer un achat
+    <a href="{{ route('fournisseurs.create') }}" class="btn btn-primary">
+      <i class="bi bi-plus-circle me-1"></i> Ajouter un fournisseur
     </a>
   </div>
 
@@ -26,14 +26,6 @@
     </div>
   @endif
 
-  @if(session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <i class="bi bi-exclamation-octagon me-1"></i>
-      {{ session('error') }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  @endif
-
   <section class="section">
     <div class="row">
       <div class="col-lg-12">
@@ -41,8 +33,8 @@
           <div class="card-body">
             
             <div class="d-flex justify-content-between align-items-center my-3">
-              <h5 class="card-title p-0 m-0">Commandes Fournisseurs & Stocks</h5>
-              <form action="{{ route('achats.index') }}" method="GET" class="d-flex gap-2" style="max-width: 300px;">
+              <h5 class="card-title p-0 m-0">Partenaires & Grossistes</h5>
+              <form action="{{ route('fournisseurs.index') }}" method="GET" class="d-flex gap-2" style="max-width: 300px;">
                 <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Rechercher...">
                 <button type="submit" class="btn btn-secondary">
                   <i class="bi bi-search"></i>
@@ -54,73 +46,53 @@
               <table class="table align-middle backend-table">
                 <thead>
                   <tr>
-                    <th>Date</th>
-                    <th>Médicament</th>
-                    <th>Fournisseur</th>
-                    <th class="text-center">Quantité</th>
-                    <th class="text-end">Prix Unitaire</th>
-                    <th class="text-end">Montant Total</th>
+                    <th>Nom</th>
+                    <th>Téléphone</th>
+                    <th>Email</th>
+                    <th>Adresse</th>
                     <th class="text-center">Statut</th>
                     <th class="text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @forelse($achats as $achat)
+                  @forelse($fournisseurs as $fournisseur)
                     <tr>
-                      <td>{{ \Carbon\Carbon::parse($achat->created_at)->format('d/m/Y') }}</td>
-                      <td>
-                        <span class="text-primary fw-bold">{{ $achat->produit->nom ?? 'Produit inconnu' }}</span>
-                        <br><small class="text-muted">{{ $achat->produit->code ?? '' }}</small>
-                      </td>
-                      <td><strong>{{ $achat->fournisseur->nom ?? 'Inconnu' }}</strong></td>
-                      <td class="text-center"><span class="badge bg-light text-dark fs-6">{{ $achat->quantite }}</span></td>
-                      <td class="text-end">{{ number_format($achat->prix_unitaire, 0, ',', ' ') }} F</td>
-                      <td class="text-end fw-bold text-dark">{{ number_format($achat->quantite * $achat->prix_unitaire, 0, ',', ' ') }} F</td>
+                      <td><span class="text-primary fw-bold">{{ $fournisseur->nom }}</span></td>
+                      <td><strong>{{ $fournisseur->telephone }}</strong></td>
+                      <td><span class="text-muted">{{ $fournisseur->email ?? 'N/A' }}</span></td>
+                      <td><small>{{ $fournisseur->adresse ?? 'N/A' }}</small></td>
                       <td class="text-center">
-                        @if($achat->statut == 'en_attente')
-                          <span class="badge bg-warning text-dark">En attente</span>
-                        @elseif($achat->statut == 'receptionne')
-                          <span class="badge bg-success">Réceptionné</span>
+                        @if($fournisseur->statut == 'actif')
+                          <span class="badge bg-success-light text-success">Actif</span>
                         @else
-                          <span class="badge bg-danger">Annulé</span>
+                          <span class="badge bg-danger-light text-danger">Inactif</span>
                         @endif
                       </td>
                       <td class="text-center">
                         <div class="d-flex justify-content-center gap-1">
-                          <!-- Bouton Voir Détails & Impression -->
-                          <a href="{{ route('achats.show', $achat->id) }}" class="btn btn-info btn-sm text-white" title="Voir le détail / Imprimer">
+                          <a href="{{ route('fournisseurs.show', $fournisseur->id) }}" class="btn btn-info btn-sm text-white" title="Voir l'historique">
                             <i class="bi bi-eye"></i>
                           </a>
                           
-                          <!-- Bouton Valider / Réceptionner -->
-                          @if($achat->statut == 'en_attente')
-                            <form action="{{ route('achats.receptionner', $achat->id) }}" method="POST" style="display:inline;">
-                              @csrf
-                              @method('PATCH')
-                              <button type="submit" class="btn btn-success btn-sm" title="Réceptionner la commande">
-                                <i class="bi bi-check-lg"></i>
-                              </button>
-                            </form>
-                          @endif
+                          <a href="{{ route('fournisseurs.edit', $fournisseur->id) }}" class="btn btn-warning btn-sm text-white" title="Modifier">
+                            <i class="bi bi-pencil"></i>
+                          </a>
 
-                          <!-- Bouton Annuler (Rollback du stock) -->
-                          @if($achat->statut != 'annule')
-                            <form action="{{ route('achats.annuler', $achat->id) }}" method="POST" onsubmit="return confirm('Annuler ce bon d\'achat ? (Le stock sera réajusté)')" style="display:inline;">
-                              @csrf
-                              @method('PATCH')
-                              <button type="submit" class="btn btn-danger btn-sm" title="Annuler le bon">
-                                <i class="bi bi-x-circle"></i>
-                              </button>
-                            </form>
-                          @endif
+                          <form action="{{ route('fournisseurs.destroy', $fournisseur->id) }}" method="POST" onsubmit="return confirm('Supprimer ce fournisseur ?')" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" title="Supprimer">
+                              <i class="bi bi-trash"></i>
+                            </button>
+                          </form>
                         </div>
                       </td>
                     </tr>
                   @empty
                     <tr>
-                      <td colspan="8" class="text-center py-4 text-muted">
+                      <td colspan="6" class="text-center py-4 text-muted">
                         <i class="bi bi-exclamation-circle fs-3 d-block mb-2"></i>
-                        Aucun bon d'achat trouvé.
+                        Aucun fournisseur trouvé.
                       </td>
                     </tr>
                   @endforelse
@@ -128,18 +100,17 @@
               </table>
             </div>
 
-            <!-- Pagination -->
             <div class="d-flex justify-content-between align-items-center mt-4">
               <div>
-                @if ($achats->onFirstPage())
+                @if ($fournisseurs->onFirstPage())
                   <button class="btn btn-secondary btn-sm" disabled>« Précédent</button>
                 @else
-                  <a href="{{ $achats->appends(['search' => request('search')])->previousPageUrl() }}" class="btn btn-primary btn-sm">« Précédent</a>
+                  <a href="{{ $fournisseurs->appends(['search' => request('search')])->previousPageUrl() }}" class="btn btn-primary btn-sm">« Précédent</a>
                 @endif
               </div>
               <div>
-                @if ($achats->hasMorePages())
-                  <a href="{{ $achats->appends(['search' => request('search')])->nextPageUrl() }}" class="btn btn-primary btn-sm">Suivant »</a>
+                @if ($fournisseurs->hasMorePages())
+                  <a href="{{ $fournisseurs->appends(['search' => request('search')])->nextPageUrl() }}" class="btn btn-primary btn-sm">Suivant »</a>
                 @else
                   <button class="btn btn-secondary btn-sm" disabled>Suivant »</button>
                 @endif

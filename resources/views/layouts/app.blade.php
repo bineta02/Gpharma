@@ -55,8 +55,11 @@
         <!-- Reste du Header (Profil & Déconnexion) inchangé -->
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="{{ asset('assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name ?? 'K. Anderson' }}</span>
+<!-- Remplace l'ancienne ligne du genre : -->
+<!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
+
+<!-- Par celle-ci : -->
+<img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">            <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name ?? 'K. Anderson' }}</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
@@ -103,7 +106,7 @@
   </a>
 </li>
           <li>
-            <a href="#">
+            <a href="{{ route('categories.create') }}">
               <i class="bi bi-circle"></i><span>Créer une catégorie</span>
             </a>
           </li>
@@ -131,41 +134,40 @@
 
       <!-- Module 3 : Achats -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#achats-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-cart"></i><span>Achats</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="achats-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Enregistrer un achat</span>
+    <a class="nav-link {{ request()->routeIs('achats.*') ? '' : 'collapsed' }}" data-bs-target="#achats-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-cart"></i><span>Achats</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="achats-nav" class="nav-content collapse {{ request()->routeIs('achats.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+        <li>
+            <a href="{{ route('achats.index') }}" class="{{ request()->routeIs('achats.index') ? 'active' : '' }}">
+                <i class="bi bi-circle"></i><span>Liste des achats</span>
             </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Historique des achats</span>
+        </li>
+        <li>
+            <a href="{{ route('achats.create') }}" class="{{ request()->routeIs('achats.create') ? 'active' : '' }}">
+                <i class="bi bi-circle"></i><span>Enregistrer un achat</span>
             </a>
-          </li>
-        </ul>
-      </li>
-
+        </li>
+    </ul>
+</li>
       <!-- Module 4 : Ventes -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#ventes-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Ventes</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="ventes-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Interface de Vente (POS)</span>
+    <a class="nav-link {{ request()->routeIs('ventes.*') ? '' : 'collapsed' }}" data-bs-target="#ventes-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-cart"></i><span>Ventes</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="ventes-nav" class="nav-content collapse {{ request()->routeIs('ventes.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+        <li>
+            <a href="{{ route('ventes.index') }}" class="{{ request()->routeIs('ventes.index') ? 'active' : '' }}">
+                <i class="bi bi-circle"></i><span>Liste des ventes</span>
             </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>Historique & Facturation</span>
+        </li>
+        <li>
+            <a href="{{ route('ventes.create') }}" class="{{ request()->routeIs('ventes.create') ? 'active' : '' }}">
+                <i class="bi bi-circle"></i><span>Ajouter une vente</span>
             </a>
-          </li>
-        </ul>
-      </li>
+        </li>
+    </ul>
+</li>
 
       <!-- Module 5 : Fournisseurs -->
       <li class="nav-item">
@@ -185,16 +187,41 @@
         </li>
     </ul>
 </li>
+
+<li class="nav-item">
+  <a class="nav-link collapsed" data-bs-target="#clients-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-people"></i><span>Clients</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="clients-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+    <li>
+      <a href="{{ route('clients.index') }}">
+        <i class="bi bi-circle"></i><span>Liste des clients</span>
+      </a>
+    </li>
+    <li>
+      <a href="{{ route('clients.create') }}">
+        <i class="bi bi-circle"></i><span>Ajouter un client</span>
+      </a>
+    </li>
+  </ul>
+</li><!-- End Clients Nav -->
       @endif
 
       <li class="nav-heading">Pages</li>
      
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-file-earmark-text"></i>
-          <span>Rapports</span>
-        </a>
-      </li>
+    <a class="nav-link {{ Route::is('rapports.index') ? '' : 'collapsed' }}" href="{{ route('rapports.index') }}">
+        <i class="bi bi-bar-chart"></i>
+        <span>Rapports</span>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link {{ Route::is('profil.show') ? '' : 'collapsed' }}" href="{{ route('profil.show') }}">
+        <i class="bi bi-person"></i>
+        <span>Mon Profil</span>
+    </a>
+</li>
      
       @if(Auth::user()->isAdmin())
       <li class="nav-item">
@@ -205,18 +232,15 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-people"></i>
-          <span>Utilisateurs</span>
-        </a>
+        <li class="nav-item">
+    <a class="nav-link {{ Route::is('users.*') ? '' : 'collapsed' }}" href="{{ route('users.index') }}">
+        <i class="bi bi-people"></i>
+        <span>Utilisateurs</span>
+    </a>
+</li>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-person"></i>
-          <span>Profil</span>
-        </a>
-      </li>
+      
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="#">

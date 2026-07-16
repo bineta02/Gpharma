@@ -74,7 +74,7 @@
                 </div>
               </div>
 
-              <!-- Statut caché par défaut à 'livré' pour simplifier pour l'examen -->
+              <!-- Statut caché par défaut à 'livré'  -->
               <input type="hidden" name="statut" value="livre">
 
               <!-- Boutons d'action -->
