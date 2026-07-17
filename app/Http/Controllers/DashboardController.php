@@ -10,13 +10,14 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function index()
-    {
-        $totalProduits = \App\Models\Produit::count(); 
-        
-        $totalVentes = \App\Models\Vente::sum('montant_total'); 
-        
-       // Si ta colonne s'appelle 'statut' et la valeur est 'actif' :
-       $totalFournisseurs = \App\Models\Fournisseur::where('statut', 'actif')->count();
-        return view('home', compact('totalProduits', 'totalVentes', 'totalFournisseurs'));
-    }
+{
+    $totalProduits = \App\Models\Produit::count(); 
+    $totalVentes = \App\Models\Vente::sum('montant_total'); 
+    $totalFournisseurs = \App\Models\Fournisseur::where('statut', 'actif')->count();
+
+    
+    $recentSales = \App\Models\Vente::latest()->take(5)->get();
+
+    return view('home', compact('totalProduits', 'totalVentes', 'totalFournisseurs', 'recentSales'));
+}
 }

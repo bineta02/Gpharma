@@ -178,39 +178,38 @@
                 <div class="card-body">
                   <h5 class="card-title">Recent Sales <span>| Today</span></h5>
                   <table class="table table-borderless datatable">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                    </tbody>
-                  </table>
+  <thead>
+    <tr>
+      <th scope="col"># N° Facture</th>
+      <th scope="col">Client</th>
+      <th scope="col">Montant</th>
+      <th scope="col">Statut</th>
+    </tr>
+  </thead>
+  <tbody>
+    @forelse($recentSales as $vente)
+      <tr>
+        <th scope="row"><a href="#">#{{ $vente->numero_facture }}</a></th>
+        <!-- Correction de l'affichage du client -->
+        <td>{{ $vente->id_client ? 'Client #' . $vente->id_client : 'Passant' }}</td>
+        <td>{{ number_format($vente->montant_total, 0, ',', ' ') }} FCFA</td>
+        <td>
+          @if($vente->statut == 'complete' || $vente->statut == 'paye')
+            <span class="badge bg-success">Payé</span>
+          @elseif($vente->statut == 'annule')
+            <span class="badge bg-danger">Annulé</span>
+          @else
+            <span class="badge bg-warning">{{ $vente->statut }}</span>
+          @endif
+        </td>
+      </tr>
+    @empty
+      <tr>
+        <td colspan="4" class="text-center">Aucune vente enregistrée.</td>
+      </tr>
+    @endforelse
+  </tbody>
+</table>
                 </div>
               </div>
             </div><!-- End Recent Sales -->
