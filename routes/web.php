@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authcontroller;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategorieController; 
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\FournisseurController;
@@ -18,9 +19,9 @@ Route::get('/sign-in', [Authcontroller::class, 'verification'])->name('login');
 Route::post('/sign-in', [Authcontroller::class, 'login']);
 
 Route::middleware('auth')->group(function (){
-Route::get('/', function (){
-    return view('home');  
-})->name('dashboard');
+    // On remplace la fonction anonyme par l'appel à ton DashboardController
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
 Route::get('/logout', [Authcontroller::class, 'logout'])->name('logout');       
 Route::resource('users', UserController::class);
 
